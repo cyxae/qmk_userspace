@@ -16,6 +16,8 @@
 #define CKC_SPC   LT(L_NUM, KC_SPC)
 #define ALT_F4    LALT(KC_F4)
 
+#define CIRQUE_CPI 2000
+
 enum layers {
   L_ALPHA,
   L_NUM,
@@ -25,6 +27,10 @@ enum layers {
 
 enum custom_keycodes {
   ALT_TAB = SAFE_RANGE,
+};
+
+void pointing_device_init_user(void) {
+  pointing_device_set_cpi(CIRQUE_CPI);
 };
 
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
