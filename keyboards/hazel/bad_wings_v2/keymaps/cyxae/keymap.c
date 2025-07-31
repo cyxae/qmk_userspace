@@ -16,6 +16,7 @@
 #define CKC_SPC   LT(L_NUM, KC_SPC)
 #define CKC_MIR   OSL(L_MIR)
 #define ALT_F4    LALT(KC_F4)
+#define KC_NBSPC  S(ALGR(KC_SPC))
 
 #define CIRQUE_CPI 2000
 
@@ -121,7 +122,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_WBAK,    ALT_TAB,    C(KC_N),    KC_WFWD,    ALT_F4,           S(KC_INS),  KC_HOME,    KC_PGDN,    KC_PGUP,    KC_END,
     KC_ESC,     KC_ENT,     KC_TAB,     S(KC_TAB),  KC_DEL,           KC_CAPS,    KC_LEFT,    KC_DOWN,    KC_UP,      KC_RIGHT,
     KC_DOWN,    CKC_MIR,    KC_UP,      KC_SPC,     KC_BSPC,          KC_MPLY,    KC_MPRV,    KC_VOLD,    KC_VOLU,    KC_MNXT,
-                            KC_NO,      KC_TRNS,    KC_TRNS,          KC_TRNS,    KC_NO,      KC_NO
+                            KC_NO,      KC_TRNS,    KC_TRNS,          KC_TRNS,    KC_NBSPC,   KC_NO
   ),
   [L_MIR] = LAYOUT_split_3x5_3(
     KC_P,       KC_O,       KC_I,       KC_U,       KC_Y,             KC_NO,      KC_NO,      KC_NO,      KC_NO,      KC_NO,
