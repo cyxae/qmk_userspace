@@ -49,18 +49,6 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
   }
 }
 
-uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case HRM_A:
-    case HRM_S:
-    case HRM_L:
-    case HRM_SCLN:
-      return LONG_TAPPING_TERM;
-    default:
-      return TAPPING_TERM;
-  }
-}
-
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case CKC_BSPC:
