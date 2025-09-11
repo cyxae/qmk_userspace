@@ -36,6 +36,21 @@ void pointing_device_init_user(void) {
   pointing_device_set_cpi(CIRQUE_CPI);
 };
 
+bool is_flow_tap_key(uint16_t keycode) {
+  if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) {
+    return false; // Disable Flow Tap on hotkeys.
+  }
+  switch (get_tap_keycode(keycode)) {
+    case KC_A ... KC_Z:
+    case KC_DOT:
+    case KC_COMM:
+    case KC_SCLN:
+    case KC_SLSH:
+        return true;
+  }
+  return false;
+}
+
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
   // If you quickly hold a tap-hold key after tapping it, the tap action is
   // repeated. Key repeating is useful e.g. for Vim navigation keys, but can
