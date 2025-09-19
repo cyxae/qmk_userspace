@@ -75,17 +75,6 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
-bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case CKC_SPC:
-      // Immediately select the hold action when another key is tapped.
-      return true;
-    default:
-      // Do not select the hold action when another key is tapped.
-      return false;
-  }
-}
-
 // NumRow 1 + Clic gauche = Download mode to allow upgrade firmware with qmk flash
 const uint16_t PROGMEM dfu_cmb[] = {KC_1, MS_BTN1, COMBO_END};
 
@@ -134,6 +123,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                             KC_TRNS,    KC_TRNS,    KC_TRNS,          KC_NO,      KC_NO,      KC_NO
   )
 };
+
+const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
+    LAYOUT_split_3x5_3(
+        'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R',
+        'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R',
+        'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R',
+                  '*', '*', '*',  '*', '*', '*'
+    );
 
 bool is_alt_tab_active = false;
 
