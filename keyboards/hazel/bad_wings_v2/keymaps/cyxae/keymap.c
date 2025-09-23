@@ -75,6 +75,23 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
   }
 }
 
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case HRM_S:
+    case HRM_D:
+    case HRM_F:
+    case HRM_J:
+    case HRM_K:
+    case HRM_L:
+    case CKC_SPC:
+      // Immediately select the hold action when another key is tapped.
+      return true;
+    default:
+      // Do not select the hold action when another key is tapped.
+      return false;
+  }
+}
+
 // NumRow 1 + Clic gauche = Download mode to allow upgrade firmware with qmk flash
 const uint16_t PROGMEM dfu_cmb[] = {KC_1, MS_BTN1, COMBO_END};
 
