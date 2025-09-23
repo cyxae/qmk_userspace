@@ -5,9 +5,9 @@
 
 #define QUICK_TAP_TERM_PER_KEY
 
-#define TAPPING_TERM 200
+#define TAPPING_TERM 270
 
-#define FLOW_TAP_TERM 150
+#define FLOW_TAP_TERM 200
 
 #define CHORDAL_HOLD
 
