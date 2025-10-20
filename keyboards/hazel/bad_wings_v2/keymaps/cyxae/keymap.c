@@ -13,7 +13,6 @@
 #define HRM_L     LALT_T(KC_L)
 #define HRM_SCLN  RGUI_T(KC_SCLN)
 #define CKC_BSPC  LT(L_NAV, KC_BSPC)
-#define CKC_SPC   LT(L_NUM, KC_SPC)
 #define CKC_MIR   OSL(L_MIR)
 #define ALT_F4    LALT(KC_F4)
 #define KC_NBSPC  S(ALGR(KC_SPC))
@@ -35,21 +34,6 @@ enum custom_keycodes {
 void pointing_device_init_user(void) {
   pointing_device_set_cpi(CIRQUE_CPI);
 };
-
-bool is_flow_tap_key(uint16_t keycode) {
-  if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) {
-    return false; // Disable Flow Tap on hotkeys.
-  }
-  switch (get_tap_keycode(keycode)) {
-    case KC_A ... KC_Z:
-    case KC_DOT:
-    case KC_COMM:
-    case KC_SCLN:
-    case KC_SLSH:
-        return true;
-  }
-  return false;
-}
 
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
   // If you quickly hold a tap-hold key after tapping it, the tap action is
@@ -83,7 +67,6 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     case HRM_J:
     case HRM_K:
     case HRM_L:
-    case CKC_SPC:
       // Immediately select the hold action when another key is tapped.
       return true;
     default:
@@ -130,13 +113,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [L_ALPHA] = LAYOUT_split_3x5_3(
     KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,             KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,
     HRM_A,      HRM_S,      HRM_D,      HRM_F,      KC_G,             KC_H,       HRM_J,      HRM_K,      HRM_L,      HRM_SCLN,
-    KC_NO,      KC_X,       KC_C,       KC_V,       KC_NO,            KC_NO,      KC_M,       KC_COMM,    KC_DOT,     KC_NO,
-                            KC_LSFT,    CKC_BSPC,   MS_BTN1,          MS_BTN2,    CKC_SPC,    KC_RALT
+    KC_LSFT,    KC_X,       KC_C,       KC_V,       KC_NO,            KC_NO,      KC_M,       KC_COMM,    KC_DOT,     KC_RSFT,
+                            MO(L_NUM),  CKC_BSPC,   MS_BTN1,          MS_BTN2,    KC_SPC,     KC_RALT
   ),
   [L_NUM] = LAYOUT_split_3x5_3(
-    KC_NO,      KC_7,       KC_8,       KC_9,       KC_NO,            KC_NO,      KC_F7,      KC_F8,      KC_F9,      KC_F10,
-    KC_0,       KC_4,       KC_5,       KC_6,       KC_NO,            KC_NO,      KC_F4,      KC_F5,      KC_F6,      KC_F11,
-    KC_KP_DOT,  KC_1,       KC_2,       KC_3,       KC_NO,            KC_NO,      KC_F1,      KC_F2,      KC_F3,      KC_F12,
+    KC_NO,      KC_F7,      KC_F8,      KC_F9,      KC_F10,           KC_KP_DOT,  KC_7,       KC_8,       KC_9,       KC_NO,
+    KC_NO,      KC_F4,      KC_F5,      KC_F6,      KC_F11,           KC_NO,      KC_4,       KC_5,       KC_6,       KC_0,
+    KC_TRNS,    KC_F1,      KC_F2,      KC_F3,      KC_F12,           KC_NO,      KC_1,       KC_2,       KC_3,       KC_TRNS,
                             KC_TRNS,    KC_TRNS,    KC_TRNS,          KC_TRNS,    KC_TRNS,    KC_NO
   ),
   [L_NAV] = LAYOUT_split_3x5_3(
