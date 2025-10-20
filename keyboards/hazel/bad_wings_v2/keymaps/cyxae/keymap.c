@@ -12,6 +12,8 @@
 #define HRM_K     RCTL_T(KC_K)
 #define HRM_L     LALT_T(KC_L)
 #define HRM_SCLN  RGUI_T(KC_SCLN)
+#define HMB_Z     LSFT_T(KC_Z)
+#define HMB_SLSH  RSFT_T(KC_SLSH)
 #define CKC_BSPC  LT(L_NAV, KC_BSPC)
 #define CKC_MIR   OSL(L_MIR)
 #define ALT_F4    LALT(KC_F4)
@@ -35,6 +37,21 @@ void pointing_device_init_user(void) {
   pointing_device_set_cpi(CIRQUE_CPI);
 };
 
+bool is_flow_tap_key(uint16_t keycode) {
+  if ((get_mods() & (MOD_MASK_CG | MOD_BIT_LALT)) != 0) {
+    return false; // Disable Flow Tap on hotkeys.
+  }
+  switch (get_tap_keycode(keycode)) {
+    case KC_SPC:
+    case KC_A ... KC_Y:
+    case KC_DOT:
+    case KC_COMM:
+    case KC_SCLN:
+        return true;
+  }
+  return false;
+}
+
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
   // If you quickly hold a tap-hold key after tapping it, the tap action is
   // repeated. Key repeating is useful e.g. for Vim navigation keys, but can
@@ -51,6 +68,8 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t* record) {
 bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case CKC_BSPC:
+    case HMB_Z:
+    case HMB_SLSH:
       // Immediately select the hold action when another key is pressed.
       return true;
     default:
@@ -77,17 +96,9 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 
 // NumRow 1 + Clic gauche = Download mode to allow upgrade firmware with qmk flash
 const uint16_t PROGMEM dfu_cmb[]  = {KC_1, MS_BTN1, COMBO_END};
-const uint16_t PROGMEM hmb_z[]    = {KC_W, HRM_S, COMBO_END};
-const uint16_t PROGMEM hmb_b[]    = {KC_R, HRM_F, COMBO_END};
-const uint16_t PROGMEM hmb_n[]    = {KC_U, HRM_J, COMBO_END};
-const uint16_t PROGMEM hmb_slsh[] = {KC_O, HRM_L, COMBO_END};
 
 combo_t key_combos[] = {
   COMBO(dfu_cmb, QK_BOOTLOADER),
-  COMBO(hmb_z, KC_Z),
-  COMBO(hmb_b, KC_B),
-  COMBO(hmb_n, KC_N),
-  COMBO(hmb_slsh, KC_SLSH),
 };
 
 // Ctrl + PgDn = Ctrl + PgUp
@@ -113,7 +124,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [L_ALPHA] = LAYOUT_split_3x5_3(
     KC_Q,       KC_W,       KC_E,       KC_R,       KC_T,             KC_Y,       KC_U,       KC_I,       KC_O,       KC_P,
     HRM_A,      HRM_S,      HRM_D,      HRM_F,      KC_G,             KC_H,       HRM_J,      HRM_K,      HRM_L,      HRM_SCLN,
-    KC_LSFT,    KC_X,       KC_C,       KC_V,       KC_NO,            KC_NO,      KC_M,       KC_COMM,    KC_DOT,     KC_RSFT,
+    HMB_Z,      KC_X,       KC_C,       KC_V,       KC_B,             KC_N,       KC_M,       KC_COMM,    KC_DOT,     HMB_SLSH,
                             MO(L_NUM),  CKC_BSPC,   MS_BTN1,          MS_BTN2,    KC_SPC,     KC_RALT
   ),
   [L_NUM] = LAYOUT_split_3x5_3(
@@ -140,7 +151,7 @@ const char chordal_hold_layout[MATRIX_ROWS][MATRIX_COLS] PROGMEM =
     LAYOUT_split_3x5_3(
         'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R',
         'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R',
-        'L', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', 'R',
+        '*', 'L', 'L', 'L', 'L',  'R', 'R', 'R', 'R', '*',
                   '*', '*', '*',  '*', '*', '*'
     );
 
